@@ -1,0 +1,74 @@
+_BASE_: ../oneformer_R50_bs16_90k.yaml
+MODEL:
+  BACKBONE:
+    NAME: "D2SwinTransformer"
+  SWIN:
+    EMBED_DIM: 96
+    DEPTHS: [2, 2, 6, 2]
+    NUM_HEADS: [3, 6, 12, 24]
+    WINDOW_SIZE: 7
+    APE: False
+    DROP_PATH_RATE: 0.3
+    PATCH_NORM: True
+  WEIGHTS: "swin_tiny_patch4_window7_224_r18_pose_motion.pkl"
+  PIXEL_MEAN: [123.675, 116.280, 103.530]
+  PIXEL_STD: [58.395, 57.120, 57.375]
+  ONE_FORMER:
+    CLASS_WEIGHT: 2.0
+    MASK_WEIGHT: 5.0
+    DICE_WEIGHT: 5.0
+    CONTRASTIVE_WEIGHT: 0.5
+    MONODEPTH_WEIGHT: 1.0
+  TEST:
+    DEPTH_ON: True
+    INSTANCE_ON: False
+    PANOPTIC_ON: False
+DATASETS:
+  TRAIN: [
+    "cityscapes_segmentation_crop_fine_panoptic_train", # panoptic must be first
+    "KITTI_eigen_zhou_train_split", # depth must be second
+  ]
+  SEG_TEST_PANOPTIC: ("cityscapes_segmentation_crop_fine_panoptic_val",)
+  SEG_TEST_INSTANCE: ("cityscapes_segmentation_crop_fine_instance_seg_val",)
+  SEG_TEST_SEMANTIC: ("cityscapes_segmentation_crop_fine_panoptic_train",)
+  DEPTH_TEST: ("KITTI_standard_eigen_test_split",)
+SOLVER:
+  IMS_PER_BATCH: 6
+  MAX_ITER: 200000
+  AMP:
+    ENABLED: False
+  DISP_INIT_ITER: 0
+  MOTION_INIT_ITER: 8000
+  MASK_INIT_ITER: 16000
+  FINE_TUNE_ITER: 56000
+  LR_SCHEDULER_NAME: "WarmupMultiStepLR"
+  GAMMA: 0.5
+  STEPS: (80000,)
+TEST:
+  EVAL_PERIOD: 5000
+INPUT:
+  DATASET_MAPPER_NAME: "oneformer_unified_multi_pass"
+  DEPTH_MIN_SIZE_TRAIN: [194]
+  DEPTH_MIN_SIZE_TRAIN_SAMPLING: "choice"
+  DEPTH_MAX_SIZE_TRAIN: 640
+  DEPTH_MIN_SIZE_TEST: 192
+  DEPTH_MAX_SIZE_TEST: 640
+  DEPTH_CROP:
+    ENABLED: True
+    TYPE: "absolute"
+    SIZE: (192, 640)
+  DEPTH_COLOR_JITTER: True
+
+  SEG_MIN_SIZE_TRAIN: !!python/object/apply:eval ["[int(x * 0.1 * 384) for x in range(7, 21)]"]
+  SEG_MIN_SIZE_TRAIN_SAMPLING: "choice"
+  SEG_MIN_SIZE_TEST: 384
+  SEG_MAX_SIZE_TRAIN: 2048
+  SEG_MAX_SIZE_TEST: 1024
+  SEG_CROP:
+    ENABLED: True
+    TYPE: "absolute"
+    SIZE: (192, 640)
+    SINGLE_CATEGORY_MAX_AREA: 1.0
+  SEG_COLOR_AUG_SSD: True
+DATALOADER:
+  NUM_WORKERS: 3

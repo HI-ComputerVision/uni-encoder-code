@@ -1,0 +1,54 @@
+_BASE_: ../oneformer_R50_bs16_90k.yaml
+MODEL:
+  BACKBONE:
+    NAME: "D2SwinTransformer"
+    FREEZE_AT: -1
+  SWIN:
+    EMBED_DIM: 96
+    DEPTHS: [2, 2, 6, 2]
+    NUM_HEADS: [3, 6, 12, 24]
+    WINDOW_SIZE: 7
+    APE: False
+    DROP_PATH_RATE: 0.3
+    PATCH_NORM: True
+  PIXEL_MEAN: [123.675, 116.280, 103.530]
+  PIXEL_STD: [58.395, 57.120, 57.375]
+  TEST:
+    DEPTH_ON: True
+    INSTANCE_ON: True
+    PANOPTIC_ON: True
+DATASETS:
+  SEG_TEST_PANOPTIC: ("cityscapes_segmentation_crop_fine_panoptic_val",)
+  SEG_TEST_INSTANCE: ("cityscapes_segmentation_crop_fine_panoptic_val",)
+  SEG_TEST_SEMANTIC: ("cityscapes_segmentation_crop_fine_panoptic_val",)
+  DEPTH_TEST: ("cityscapes_crop_test",)
+SOLVER:
+  IMS_PER_BATCH: 6
+  AMP:
+    ENABLED: False
+INPUT:
+  DATASET_MAPPER_NAME: "oneformer_unified_multi_pass"
+  DEPTH_MIN_SIZE_TRAIN: [192]
+  DEPTH_MIN_SIZE_TRAIN_SAMPLING: "choice"
+  DEPTH_MAX_SIZE_TRAIN: 512
+  DEPTH_MIN_SIZE_TEST: 192
+  DEPTH_MAX_SIZE_TEST: 512
+  DEPTH_CROP:
+    ENABLED: True
+    TYPE: "absolute"
+    SIZE: (192, 512)
+  DEPTH_COLOR_JITTER: True
+
+  SEG_MIN_SIZE_TRAIN: !!python/object/apply:eval ["[int(x * 0.1 * 384) for x in range(5, 21)]"]
+  SEG_MIN_SIZE_TRAIN_SAMPLING: "choice"
+  SEG_MIN_SIZE_TEST: 384
+  SEG_MAX_SIZE_TRAIN: 2048
+  SEG_MAX_SIZE_TEST: 1024
+  SEG_CROP:
+    ENABLED: True
+    TYPE: "absolute"
+    SIZE: (192, 512)
+    SINGLE_CATEGORY_MAX_AREA: 1.0
+  SEG_COLOR_AUG_SSD: True
+DATALOADER:
+  NUM_WORKERS: 3
