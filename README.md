@@ -1,45 +1,65 @@
 # Human Insights Driven Latent Space for Different Driving Perspectives: A Unified Encoder for Efficient Multi-Task Inference
 
-This repo contains the code for our paper **Human Insights Driven Latent Space for Different Driving Perspectives: A Unified Encoder for Efficient Multi-Task Inference**.
+## Description
+This repository contains the code and resources accompanying the paper  
+**"Human Insights Driven Latent Space for Different Driving Perspectives: A Unified Encoder for Efficient Multi-Task Inference"**.
 
-## Contents
+It provides implementation details, scripts, and instructions for setting up the environment, preparing datasets, and running evaluations and demos related to the research.
 
-1. [Installation Instructions](#installation-instructions)
-2. [Dataset Preparation](#dataset-preparation)
-3. [Execution Instructions](#execution-instructions)
-    - [Evaluation](#evaluation)
-    - [Demo](#demo)
-4. [Citation](#citation)
+## RDI Method: EDC(s)
+*(If this repository does not involve EDCs, you may remove this section. Otherwise, list relevant EDCs and their details.)*
 
+| EDCs | PDE | Internal Article | Current State | Main File | Main Contributor | Corresponding EDC |
+|------|-----|-----------------|---------------|-----------|-----------------|------------------|
+| ...  | ... | ...             | ...           | ...       | ...             | ...              |
 
-## Installation Instructions
+## Requirements
+- Python 3.8
+- PyTorch 1.10.1 (CUDA 11.3 build)
+- Detectron2-v0.6
 
-- We use Python 3.8, PyTorch 1.10.1 (CUDA 11.3 build).
-- We use Detectron2-v0.6.
-- For complete installation instructions, please see [INSTALL.md](INSTALL.md).
+Additional requirements and dependencies are described in [INSTALL.md](INSTALL.md).
 
-## Dataset Preparation
+## Installation
+Follow the steps in [INSTALL.md](INSTALL.md) to set up the environment and install all necessary packages and dependencies.
 
-- We experiment on CityScape dataset.
-- Please see [Preparing Datasets](datasets/README.md) for complete instructions for preparing the datasets.
+Example:
+```
+python -m pip install -r /path/to/requirements.txt
+```
 
-## Execution Instructions
+## Usage
+This repository provides scripts and functionalities to run evaluations and demos. For detailed commands and workflow instructions, refer to the following sections.
 
 ### Evaluation
-
-- Please see [Getting Started](GETTING_STARTED.md) for evaluation commands.
+See [GETTING_STARTED.md](GETTING_STARTED.md) for evaluation commands and guidelines.
 
 ### Demo
+For running inference demos and showcasing the model’s capabilities, refer to [demo/README.md](demo/README.md).
 
-- Please see [Demo](demo/README.md) for command line instructions on running the demo.
+## Documentation
+Comprehensive documentation, including an overview of the code structure, methodology, and configuration details, can be found in the associated documentation files and comments within the source code.
 
+## Contributing
+If you would like to contribute:
+- Report issues or suggest improvements in the issue tracker.
+- Submit merge/pull requests following the project’s contributing guidelines.
 
+## License
+This code is for internal use and research purposes only. Consult the project maintainers for any usage outside the intended scope.
 
-## Citation
+## Contact
+For questions or inquiries, please contact the maintainer:
+- Name: [Maintainer Name]
+- Email: [Maintainer Email]
 
-If you found our method useful in your research, please consider starring ⭐ us on GitHub and citing 📚 us in your research!
+## Acknowledgements
+We thank all collaborators, researchers, and projects that have influenced this work, including the community around Detectron2 and related tools.
 
-```bibtex
+## References
+If this work is useful in your research, please consider starring the repository and citing it:
+
+```
 @misc{nguyen2024humaninsightsdrivenlatent,
       title={Human Insights Driven Latent Space for Different Driving Perspectives: A Unified Encoder for Efficient Multi-Task Inference}, 
       author={Huy-Dung Nguyen, Anass Bairouk, Mirjana Maras, Wei Xiao, Tsun-Hsuan Wang, Patrick Chareyre, Ramin Hasani, Marc Blanchon and Daniela Rus},
@@ -47,4 +67,3 @@ If you found our method useful in your research, please consider starring ⭐ us
       eprint={2409.10095},
       url={https://arxiv.org/abs/2409.10095}}
 ```
-

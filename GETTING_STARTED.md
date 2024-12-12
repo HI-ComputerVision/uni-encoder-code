@@ -1,25 +1,71 @@
-# Getting Started
+# *Name of the Repository**
 
-This document is based on the documentation of OneFormer.
+## **Description**  
+This repository builds upon the OneFormer framework for unified image segmentation tasks and integrates with Detectron2-based workflows. For more details and a complete understanding of Detectron2 usage, refer to the [Getting Started with Detectron2](https://github.com/facebookresearch/detectron2/blob/master/GETTING_STARTED.md).
 
-Please see [Getting Started with Detectron2](https://github.com/facebookresearch/detectron2/blob/master/GETTING_STARTED.md) for full usage.
+## **RDI Method: EDC(s)**  
+*(If applicable, list EDCs here and follow the guidelines provided in the original template. Otherwise, remove this section.)*
 
-## Evaluation
+| EDCs  | PDE | Internal Article | Current State | Main File | Main Contributor | Corresponding EDC |
+|-------|-----|-----------------|---------------|-----------|-----------------|------------------|
+| ...   | ... | ...             | ...           | ...       | ...             | ...              |
 
-- You need to pass the value of `task` token. `task` belongs to [panoptic, semantic, instance].
 
-- The depth evaluation is automatically provided regardless the value of the `task` token.
+## **Requirements**  
+- Python 3.8+  
+- PyTorch and Detectron2 installed (compatible versions listed in the repository's requirements)  
+- OneFormer dependencies (refer to OneFormer documentation for details)
 
-- To evaluate a model's performance, use:
+## **Installation**  
+Install dependencies using the provided `requirements.txt` (if available) or follow standard Detectron2 and OneFormer installation steps.
 
-```bash
-python train_net.py --dist-url 'tcp://127.0.0.1:50164' \
-    --num-gpus 8 \
+```
+pyhon -m pip install -r /path/to/requirements.txt
+```
+## **Usage**  
+Below are guidelines for evaluating models and running inference demos.
+
+### Evaluation  
+You must specify a `task` when evaluating your model. The possible tasks are `panoptic`, `semantic`, or `instance`.  
+Note that depth evaluation is automatically included regardless of the chosen task.
+
+**Example Command:**
+
+```
+pyhon train_net.py --dist-url 'tcp://127.0.0.1:50164' \
+    --num-gpus 1 \
     --config-file configs/citysapes/swin/unified_encoder_cityscapes.yaml \
     --eval-only MODEL.IS_TRAIN False MODEL.WEIGHTS <path-to-checkpoint> \
     MODEL.TEST.TASK <task>
 ```
+## **Documentation**  
+For a detailed walkthrough of using OneFormer and Detectron2 features, refer to their respective documentations:
 
-## Inference Demo
+- [Detectron2 Getting Started](https://github.com/facebookresearch/detectron2/blob/master/GETTING_STARTED.md)  
+- [OneFormer Documentation](https://github.com/SHI-Labs/OneFormer)
 
-We provide a demo script for inference on images. For more information, please see [demo/README.md](demo/README.md).
+Additional explanations, feature guides, and detailed methodology are provided in the repository's internal documentation and code comments.
+
+## **Inference Demo**  
+A demo script is provided for running inference on images. For instructions, usage examples, and supported input formats, please see the [demo/README.md](demo/README.md).
+
+## **Contributing**  
+If you would like to contribute, please:  
+- Open issues for bugs or feature suggestions.  
+- Submit merge/pull requests for proposed changes.  
+- Follow the project's coding standards and contribution guidelines.
+
+## **License**  
+This code is for internal use and research purposes only.
+
+## **Contact**  
+For any inquiries or further information, please contact the maintainer:  
+- Name: Huy-Dung NGUYEN 
+- Email: huy-dung.nguyen@capgemini.com
+
+## **Acknowledgements**  
+We acknowledge the OneFormer and Detectron2 teams and their extensive documentation that made this integration possible.
+
+## **References**  
+- OneFormer: [https://github.com/SHI-Labs/OneFormer](https://github.com/SHI-Labs/OneFormer) 
+- Detectron2: [https://github.com/facebookresearch/detectron2](https://github.com/facebookresearch/detectron2)
